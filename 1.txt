@@ -1,0 +1,133 @@
+常用命令：
+
+ 
+git克隆项目(下载代码)
+#git clone http://192.168.0.223/git/test
+git clone git@github.com:laiweiwei/vms.git
+git clone git@github.com:syking/smrt-lbs-new.git
+复制粘帖方法：
+git bash控制台--标题栏--右键--编辑--标记/粘帖
+git更新内容
+cd /d
+cd play/smrt-lbs
+git pull origin
+提交到本地
+cd /d
+cd play/smrt-lbs
+git add .
+git commit -m "some string"
+提交到服务器
+git push -u origin master
+删除文件（直接删除后需要重新用命令删除）
+$ git rm  app/views/Application/index.html
+rm 'app/views/Application/index.html'
+查看文件状态
+git status
+
+------------------------------------------------------------------
+假设你的资料库默认分支为 master，当你有一个新的项目或者想法时
+创建一个分支，然后在分支上开发，最后再合并到 master 上
+创建新分支并命名，此处我们创建名为 new_sub 的分支 
+git branch new_sub
+移到新分支上
+git checkout new_sub
+开始你的工作并保存结果
+添加所改动的文件以便提交
+git add .
+提交改动
+git commit -m "made some changes"
+回到 master 主分支
+git checkout master
+合并到主分支
+git merge new_sub
+git branch 可显示所有的分支
+删除分支
+
+git branch -d new_sub 
+
+========================================== 
+Git和GitHub入门
+1. Git和GitHub简单文字说明
+Git是一个开源的分布式版本控制系统，用以有效、高速的处理各种规模的项目版本管理， 它是 Linux Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件，后来得到广泛的使用。
+ 
+GitHub可以托管各种git库，并提供一个web界面，但与其它像 SourceForge或GoogleCode这样的服务不同，GitHub的独特卖点在于从另外一个项目进行分支的简易性。为一个项目贡献代码非常简单：首先点击项目站点的“fork”的按钮，然后将代码检出并将修改加入到刚才分出的代码库中，最后通过内建的“pull request”机制向项目负责人申请代码合并。已经有人将GitHub称为代码玩家的MySpace。
+ 
+2. 安装Git on Windows
+下载 msysgit（http://code.google.com/p/msysgit/）， 安装时保留默认选项， 不要使用putty作为客户端，GitHub只支持openssh. 安装完成后需要生成SSH Key.
+windows可视化操作界面客户端（和svn很类似）  http://code.google.com/p/tortoisegit/
+3. 配置
+3.1 检查是否已经存在KEY
+ 
+$ cd ~/.ssh
+$ ls
+config  id_rsa  id_rsa.pub  known_hosts
+$ mkdir key_backup
+$ cp id_rsa* key_backup
+$ rm id_rsa*
+ 
+如果已经存在KEY（id_rsa, id_rsa.pub），把他们拷贝到key_backup目录备份， 因为SSH默认会使用”.ssh”目录下的KEY
+ 注：windows7在C:\Users\ZDZ\.ssh目录下可以找到
+
+ 
+3.2 生成SSH KEY
+ 
+代码
+$ ssh-keygen -t rsa -C "your_mail_addr@gmail.com"
+Enter file in which to save the key (/c/Users/Tekkub/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /c/Users/Tekkub/.ssh/id_rsa.
+Your public key has been saved in /c/Users/Tekkub/.ssh/id_rsa.pub.
+The key fingerprint is:
+e8:ae:60:8f:38:c2:98:1d:6d:84:60:8c:9e:dd:47:81 your_mail_addr@gmail.com
+ 
+在这里会要求输入key 目录和 密码，可根据自己的情况输入
+
+注：这里生成的key可以在多个网站上使用（例如github和bitbucket），只要本地的和对应网站的key保持一致就可以了 
+ 
+3.3 将Public Key 添加到GitHub
+打开你的GitHub->SSH Public Key->点击“Add another public key”,  将你的public key（id_rsa.pub）的内容拷贝到GitHub中
+ 
+
+bitbucket添加方式：帐号下来-->Account-->SSH keys 里面的 Add a new key ,  将你的public key（id_rsa.pub）的内容拷贝到SSH key文本框
+
+ 
+3.4 测试
+$ ssh git@github.com
+ERROR: Hi tekkub! You've successfully authenticated, but GitHub does not provide 
+shell access
+Connection to github.com closed.
+成功！！
+ 
+4. 下载你的项目
+$git clone git://github.com/schacon/simplegit.git
+ 
+5. 提交变更
+5.1 配置
+  git config --global user.name "Your Name"
+  git config --global user.email your_email@gmail.com
+ 
+5.2 创建Repository
+ 
+1 mkdir clrs
+2 cd clrs
+3 git init
+4 touch README
+5 git add README
+6 git commit -m 'first commit'
+7 git remote add origin git@github.com:your_name/clrs.git
+8 git push origin master
+ 
+5.3 提交已经存在的Repository
+1 cd existing_git_repo
+2 git remote add origin git@github.com:your_name/clrs.git
+3 git push origin master
+ -----------------------------------------------------------------------
+
+用可视化界面生成key需要下载 puttygen.exe http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
+
+生成.ppk的key 使用说明 http://code.google.com/p/tortoisegit/wiki/UsingPuTTY 
+
+ 公钥认证需要一对密钥:公钥-私钥，所以在你的的电脑上要有：private.ppk(私钥)文件和Public文件(公钥)，用私钥加密公钥。
+
+握手原理：当登录服务器时，客户端软件将向服务器发出公钥认证请求，服务器先检查你的公匙是否合法，然后就用公钥加密一个随机数发送给客户端软件。客户端软件用私钥将这个加密的随机数解密后发送给服务器。因为公钥和私钥是成对使用的，公钥加密的数据只能用私钥解密，所以服务器就可以确认公钥认证的合法性了。
